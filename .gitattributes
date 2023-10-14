@@ -1,2 +1,134 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import java.io.*;
+import java.nio.file.*;
+
+public class ArchivoTtx {
+    // Clase para leer archivos
+    public static class LectorArchivo {
+        private BufferedReader lector;
+
+        public LectorArchivo(String nombreArchivo) {
+            try {
+                lector = new BufferedReader(new FileReader(nombreArchivo));
+            } catch (FileNotFoundException e) {
+                System.err.println("No se encuentra el archivo: " + e.getMessage());
+            }
+        }
+
+        public void leerContenidoArchivo() {
+            if (lector == null) {
+                return;
+            }
+
+            try {
+                String linea;
+
+                while ((linea = lector.readLine()) != null) {
+                    System.out.println(linea);
+                }
+            } catch (IOException e) {
+                System.err.println("Error al leer el archivo: " + e.getMessage());
+            } finally {
+                try {
+                    if (lector != null) {
+                        lector.close();
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error al cerrar el archivo: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    // Clase para escribir archivos
+    public static class EscritorArchivo {
+        private BufferedWriter writer;
+
+        public EscritorArchivo(String nombreArchivo) {
+            try {
+                writer = new BufferedWriter(new FileWriter(nombreArchivo, true));
+            } catch (IOException e) {
+                System.err.println("Error al escribir en el archivo: " + e.getMessage());
+            }
+        }
+
+        public void escribir(String contenido) {
+            try {
+                writer.write(contenido);
+                writer.newLine();
+                System.out.println(contenido);
+            } catch (IOException e) {
+                System.err.println("Error al escribir en el archivo: " + e.getMessage());
+            }
+        }
+
+        public void cerrar() {
+            try {
+                if (writer != null) {
+                    writer.close();
+                }
+            } catch (IOException e) {
+                System.err.println("Error al cerrar el archivo: " + e.getMessage());
+            }
+        }
+    }
+
+    // Clase para mover archivos
+    public static class MoverArchivo {
+        private Path archivoOrigen;
+        private Path archivoDestino;
+
+        public MoverArchivo(String rutaOrigen, String rutaDestino) {
+            archivoOrigen = Paths.get(rutaOrigen);
+            archivoDestino = Paths.get(rutaDestino);
+        }
+
+        public void mover() {
+            try {
+                if (Files.exists(archivoOrigen)) {
+                    Files.move(archivoOrigen, archivoDestino, StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("Archivo movido con éxito.");
+                } else {
+                    System.err.println("El archivo de origen no existe.");
+                }
+            } catch (IOException e) {
+                System.err.println("Error al mover el archivo: " + e.getMessage());
+            }
+        }
+    }
+
+    // Clase para borrar archivos
+    public static class BorradorArchivo {
+        private File archivo;
+
+        public BorradorArchivo(String rutaArchivo) {
+            archivo = new File(rutaArchivo);
+        }
+
+        public boolean borrar() {
+            if (archivo.exists()) {
+                if (archivo.delete()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    // Clase para crear archivos
+    public static class CreadorArchivo {
+        private Path archivo;
+
+        public CreadorArchivo(String nombreArchivo) {
+            archivo = Paths.get(nombreArchivo);
+        }
+
+        public void crear() {
+            try {
+                Files.createFile(archivo);
+                System.out.println("Archivo creado con éxito.");
+            } catch (IOException e) {
+                System.err.println("Error al crear el archivo: " + e.getMessage());
+            }
+        }
+    }
+}
