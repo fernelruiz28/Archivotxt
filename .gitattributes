@@ -47,7 +47,7 @@ public class ArchivoTtx {
             try {
                 writer = new BufferedWriter(new FileWriter(nombreArchivo, true));
             } catch (IOException e) {
-                System.err.println("Error al escribir en el archivo: " + e.getMessage());
+                System.err.println("Ocurrio un error al escribir en el archivo: " + e.getMessage());
             }
         }
 
@@ -57,7 +57,7 @@ public class ArchivoTtx {
                 writer.newLine();
                 System.out.println(contenido);
             } catch (IOException e) {
-                System.err.println("Error al escribir en el archivo: " + e.getMessage());
+                System.err.println("A ocurrido un error al escribir en el archivo: " + e.getMessage());
             }
         }
 
@@ -67,7 +67,7 @@ public class ArchivoTtx {
                     writer.close();
                 }
             } catch (IOException e) {
-                System.err.println("Error al cerrar el archivo: " + e.getMessage());
+                System.err.println("Ocurrio erroal cerrar el archivo: " + e.getMessage());
             }
         }
     }
@@ -86,12 +86,12 @@ public class ArchivoTtx {
             try {
                 if (Files.exists(archivoOrigen)) {
                     Files.move(archivoOrigen, archivoDestino, StandardCopyOption.REPLACE_EXISTING);
-                    System.out.println("Archivo movido con éxito.");
+                    System.out.println("Se movio el archivo con exito.");
                 } else {
-                    System.err.println("El archivo de origen no existe.");
+                    System.err.println("Este archivo de origen no existen.");
                 }
             } catch (IOException e) {
-                System.err.println("Error al mover el archivo: " + e.getMessage());
+                System.err.println("Ocurrio un error al mover el archvivo: " + e.getMessage());
             }
         }
     }
